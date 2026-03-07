@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <!-- google font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- daisyui and tailwind -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- styles -->
+    <style>
+        * {
+            font-family: "Geist", sans-serif;
+        }
+    </style>
+
+    <title>Login | GitHub Issues Tracker</title>
+</head>
+
+<body class="w-[1600px]">
+
+    <section class="w-min mx-auto flex flex-col gap-[24px] p-[32px] shadow-md shadow-[#1F2937]-500/50 mt-4">
+        <header class="flex flex-col justify-center items-center gap-[24px]">
+            <div>
+                <img src="assets/github-logo.png" alt="">
+            </div>
+            <div class="text-center">
+                <h1 class="font-semibold text-[#1F2937]">GitHub Issues Tracker</h1>
+                <p class="font-[16px] text-[#64748B]">Sign in to manage your issues</p>
+            </div>
+        </header>
+
+        <fieldset class="fieldset bg-[#ffffff] rounded-box w-xs p-[24px]">
+
+            <label class="label font-semibold text-[#1F2937]">Username</label>
+            <input id="username-input" type="text" class="input" placeholder="Enter Username" />
+
+            <label class="label font-semibold text-[#1F2937] mt-[24px]">Password</label>
+            <input id="password-input" type="password" class="input" placeholder="Enter Password" />
+
+            <button onclick="doSignIn()" class="btn btn-primary mt-[24px] text-[#ffffff]">Sign In</button>
+        </fieldset>
+
+        <div class="divider my-0">
+            <span>OR</span>
+        </div>
+
+        <div class="text-center flex flex-col gap-[24px]">
+            <p class="font-[16px] text-[#64748B]">Demo Credentials:</p>
+            <div class="rounded-box p-4 bg-slate-50">
+                <span class="font-semibold">Username:</span> admin
+                <br>
+                <span class="font-semibold">Password:</span> admin123
+            </div>
+        </div>
+
+    </section>
+
+    <script src="script/index.js"></script>
+
+</body>
+
+</html>
