@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <!-- google font -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap" rel="stylesheet">
+
+    <!-- daisyui and tailwind -->
+    <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+    <!-- font awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- styles -->
+    <style>
+        * {
+            font-family: "Geist", sans-serif;
+        }
+
+        nav ul li a:hover {
+            background-color: #570df8;
+            color: #FFFFFF;
+        }
+
+        nav ul li a.active {
+            background-color: #570df8;
+            color: #FFFFFF;
+        }
+
+        button:hover {
+            box-shadow: none;
+        }
+
+        .card.open{
+            border-top: 4px solid #16A34A;
+        }
+
+        .card.close{
+            border-top: 4px solid #9333EA;
+        }
+
+    </style>
+
+    <title>Dashboard | GitHub Issues Tracker</title>
+</head>
+
+<body class="w-[1600px] mx-auto">
+
+    <header class="flex justify-between py-4 px-20 border-b border-gray-300">
+        <div class="flex items-start gap-3">
+            <img class="w-[36px] h-[37px]" src="assets/github-logo.png" alt="">
+            <h1 class="font-semibold text-[37px]">GitHub Issues Tracker</h1>
+        </div>
+        <div class="join flex gap-4">
+            <div>
+                <label class="input validator join-item">
+                    <i class="text-[#64748B] fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search issues..." required />
+                </label>
+            </div>
+            <button class="btn btn-primary join-item">+ New Issue</button>
+        </div>
+    </header>
+
+    <section class="board-section py-15 px-[245px] bg-[#F8FAFC] space-y-6">
+
+        <nav class="w-100% bg-white shadow-sm rounded-box">
+            <ul class="menu menu-vertical lg:menu-horizontal rounded-box p-6 flex gap-2">
+                <li class=""><a
+                        class="active w-[120px] py-[8px] px-[12px] block border border-gray-300/50 text-center">All</a>
+                </li>
+                <li class=""><a
+                        class="w-[120px] py-[8px] px-[12px] block border border-gray-300/50 text-center">Open</a></li>
+                <li class=""><a
+                        class="w-[120px] py-[8px] px-[12px] block border border-gray-300/50 text-center">Closed</a></li>
+            </ul>
+        </nav>
+
+        <div class="w-100% bg-white shadow-sm rounded-box space-y-6">
+            <div id="info-container" class="flex justify-between p-6 border-b border-gray-300">
+                <div class="flex gap-1">
+                    <img class="" src="assets/Aperture.png" alt="">
+
+                    <div>
+                        <h1 class="font-semibold text-[#1F2937] text-[20px]"><span>50</span> Issues</h1>
+                        <p class="font-[16px] text-[#64748B] text-nowrap">Track and manage your project issues</p>
+                    </div>
+                </div>
+                <div class="flex gap-3 items-center">
+                    <span class="text-[16px]"><i class="fa-solid fa-circle text-green-500 mr-1"></i>Open</span>
+                    <span class="text-[16px]"><i class="fa-solid fa-circle text-purple-500 mr-1"></i>Closed</span>
+                </div>
+            </div>
+
+            <div id="card-container">
+
+                <div class="card open w-[256px] h-auto shadow-md rounded-box space-y-4">
+
+                    <div class="space-y-3 p-4 border-b border-gray-300">
+
+                        <div class="flex justify-between items-center">
+
+                            <div id="status-img" class="w-6 h-6 flex items-center rounded-full bg-green-500">
+                                <img src="assets/Open-Status.png" alt="">
+                            </div>
+                            <button
+                                class="btn btn-outline border-none bg-red-100 btn-error rounded-full p-2 w-20 h-7 text-red-600 font-medium text-[12px]">HIGH
+                            </button>
+
+                        </div>
+
+                        <div>
+                            <h1 class="font-semibold text-[#1F2937] text-[14px]">Fix Navigation Menu On Mobile Devices
+                            </h1>
+                            <p class="text-[12px] text-[#64748B]">The navigation menu doesn't collapse properly on
+                                mobile devices...
+                            </p>
+                        </div>
+
+
+                        <div id="labels" class="flex items-center gap-2">
+                            <button
+                                class="btn btn-outline bg-red-100 border-2 border-red-200 btn-error rounded-full p-2 w-19 h-8 text-red-600 font-medium text-[12px]"><i
+                                    class="fa-solid fa-bug"></i> BUG
+                            </button>
+                            <button
+                                class="btn btn-outline bg-orange-100 border-2 border-orange-200 btn-error rounded-full p-2 w-fit h-8 text-orange-600 font-medium text-[12px]"><i
+                                    class="fa-brands fa-chrome"></i> HELP WANTED
+                            </button>
+
+                        </div>
+                    </div>
+
+                    <div class="text-[12px] text-[#64748B] items-center px-4 pb-4">
+                        <div>
+                            #<span id="no-by-author">1</span>
+                            by <span id="author">john_doe</span>
+                        </div>
+                        <div id="date">
+                            01/15/2024
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <script src="script/dashboard.js"></script>
+</body>
+
+</html>
