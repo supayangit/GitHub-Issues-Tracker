@@ -1,3 +1,4 @@
+const issuesNo = document.getElementById("issues-no");
 const fetchIssues = async (type="all") => {
     try {
         const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
@@ -11,7 +12,7 @@ const fetchIssues = async (type="all") => {
 
       } catch (error) {
         console.error("Error fetching issues:", error);
-    }
+    };
 };
 
 const setActiveFilter = (type) => {
@@ -34,17 +35,17 @@ document.addEventListener("DOMContentLoaded", () => {
 /**
  {
 "id": 1,
-"title": "Fix navigation menu on mobile devices",
-"description": "The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.",
-"status": "open",
+"title": "Fix navigation menu on mobile devices",--
+"description": "The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.",--
+"status": "open",--
 "labels": [
 "bug",
 "help wanted"
-],
-"priority": "high",
-"author": "john_doe",
+],--
+"priority": "high",--
+"author": "john_doe",--
 "assignee": "jane_smith",
-"createdAt": "2024-01-15T10:30:00Z",
+"createdAt": "2024-01-15T10:30:00Z",--
 "updatedAt": "2024-01-15T10:30:00Z"
 },
  */
@@ -93,6 +94,7 @@ const loadLabels = (labels, container) => {
 const displayIssues = (issues, type) => {
   const container = document.getElementById("card-container");
   container.innerHTML = ""; // Clear previous cards
+  issuesCount = 0;
 
   issues.forEach(issue => {
 
@@ -157,5 +159,7 @@ const displayIssues = (issues, type) => {
     loadLabels(issue.labels, labelsContainer);
 
     container.appendChild(card);
+    issuesCount++;
   });
+  issuesNo.innerText = `${issuesCount}`;
 };
