@@ -1,54 +1,147 @@
 const issuesNo = document.getElementById("issues-no");
-const fetchIssues = async (type="all") => {
-    try {
-        const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
-        const res = await fetch(url);
-        const details = await res.json();
-        const obj = details.data;
-        console.log(obj);
+const fetchIssues = async (type = "all") => {
+  try {
+    const url = "https://phi-lab-server.vercel.app/api/v1/lab/issues";
+    const res = await fetch(url);
+    const details = await res.json();
+    const obj = details.data;
+    console.log(obj);
 
-        setActiveFilter(type);
-        displayIssues(obj, type);
+    setActiveFilter(type);
+    displayIssues(obj, type);
 
-      } catch (error) {
-        console.error("Error fetching issues:", error);
-    };
+  } catch (error) {
+    console.error("Error fetching issues:", error);
+  };
 };
 
 const setActiveFilter = (type) => {
   const filters = document.querySelectorAll(".filter");
 
   filters.forEach(filter => {
-    if(filter.classList.contains("active")){
+    if (filter.classList.contains("active")) {
       filter.classList.remove("active");
     };
-    if(filter.dataset.type === type){
+    if (filter.dataset.type === type) {
       filter.classList.add("active");
     };
   });
 };
 
 document.addEventListener("DOMContentLoaded", () => {
-    fetchIssues();
+  fetchIssues();
 });
 
-/**
- {
-"id": 1,
-"title": "Fix navigation menu on mobile devices",--
-"description": "The navigation menu doesn't collapse properly on mobile devices. Need to fix the responsive behavior.",--
-"status": "open",--
-"labels": [
-"bug",
-"help wanted"
-],--
-"priority": "high",--
-"author": "john_doe",--
-"assignee": "jane_smith",
-"createdAt": "2024-01-15T10:30:00Z",--
-"updatedAt": "2024-01-15T10:30:00Z"
-},
- */
+const openIssue = (id) => {
+  const url = `https://phi-lab-server.vercel.app/api/v1/lab/issue/${id}`;
+
+  fetch(url)
+    .then(res => res.json())
+    .then(json => displayIssue(json.data));
+};
+
+const capitalize = (text) => {
+  return text.charAt(0).toUpperCase() + text.slice(1).toLowerCase();
+};
+
+const displayIssue = (issue) => {
+
+  const modal = document.createElement("dialog");
+  modal.className = "w-[700px] max-h-[440px] shadow-md rounded-box space-y-1 p-4 m-auto";
+  modal.id = "issue_modal";
+
+  const statusColor =
+    issue.status === "open" ? "bg-green-600" : "bg-orange-600";
+
+  const priorityColor = {
+    high: "bg-red-500",
+    medium: "bg-orange-500",
+    low: "bg-gray-500"
+  };
+
+  modal.innerHTML = `
+        <div class="flex flex-col gap-1 px-4">
+            <h1 class="font-bold text-[#1F2937] text-[24px]">
+                ${issue.title}
+            </h1>
+
+            <div class="flex justify-start gap-2 items-center  text-[#64748B]">
+                <button
+                    class="btn btn-outline border-none ${statusColor} rounded-full py-2 px-3 w-fit h-8 text-white font-medium text-[12px]">
+                    ${capitalize(issue.status)}
+                </button>
+                •
+                <div class="text-[14px]">
+                    Opened by <span class="assignee">${issue.assignee ? issue.assignee : "Not mentioned"}</span>
+                </div>
+                •
+                <div class="date text-[14px]">
+                     ${new Date(issue.updatedAt).toLocaleDateString('en-US', {
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric'
+                     })}
+                </div>
+            </div>
+        </div>
+
+        <div class="space-y-3 p-4 text-[#64748B] text-[16px]">
+
+            <div class="labels flex flex-wrap items-center gap-2"></div>
+
+            <p class="text-[16px] text-[#64748B]">
+                ${issue.description}
+            </p>
+        </div>
+
+        <div class="w-full bg-gray-100 text-[16px] text-[#64748B] flex justify-between p-4 rounded-box">
+            <div class="w-1/2">
+                <p>Assignee:</p>
+                <span class="assignee font-semibold text-[#1F2937]">
+                    ${issue.assignee ? issue.assignee : "Not mentioned"}
+                </span>
+            </div>
+
+            <div class="w-1/2">
+                <p>Priority:</p>
+                <button
+                    class="btn btn-outline border-none ${priorityColor[issue.priority]} rounded-full py-2 px-3 w-fit h-8 text-white font-medium text-[12px]">
+                    ${issue.priority.toUpperCase()}
+                </button>
+            </div>
+        </div>
+
+        <div class="modal-action">
+            <form method="dialog">
+                <button class="btn btn-primary">Close</button>
+            </form>
+        </div>
+  `;
+
+  document.body.appendChild(modal);
+
+  // render labels
+  const labelsContainer = modal.querySelector(".labels");
+  loadLabels(issue.labels, labelsContainer);
+
+  modal.showModal();
+};
+
+// Function to render labels into a given container
+const loadLabels = (labels, container) => {
+  container.innerHTML = ""; 
+
+  labels.forEach(label => {
+    const config = labelStyles[label];
+    if (!config) return; 
+
+    const btn = document.createElement("button");
+    btn.className = config.classes;
+    btn.innerHTML = `<i class="${config.icon}"></i> ${label.toUpperCase()}`;
+
+    container.appendChild(btn);
+  });
+};
 
 // Label configuration for dynamic rendering
 const labelStyles = {
@@ -74,22 +167,6 @@ const labelStyles = {
   }
 };
 
-// Function to render labels into a given container
-const loadLabels = (labels, container) => {
-  container.innerHTML = ""; // Clear previous labels
-
-  labels.forEach(label => {
-    const config = labelStyles[label];
-    if (!config) return; // Skip unknown labels
-
-    const btn = document.createElement("button");
-    btn.className = config.classes;
-    btn.innerHTML = `<i class="${config.icon}"></i> ${label.toUpperCase()}`;
-
-    container.appendChild(btn);
-  });
-};
-
 // Function to display issues
 const displayIssues = (issues, type) => {
   const container = document.getElementById("card-container");
@@ -98,12 +175,13 @@ const displayIssues = (issues, type) => {
 
   issues.forEach(issue => {
 
-    if((type == "open" || type == "closed") && type!==issue.status) {
-    return;
+    if ((type == "open" || type == "closed") && type !== issue.status) {
+      return;
     };
 
     const card = document.createElement("div");
     card.className = `card ${issue.status} w-[256px] h-auto shadow-md rounded-box space-y-4`;
+    card.setAttribute("onclick", `openIssue(${issue.id})`);
 
     card.innerHTML = `
       <div class="space-y-3 p-4 border-b border-gray-300">
@@ -114,13 +192,12 @@ const displayIssues = (issues, type) => {
             <img src="${issue.status === 'open' ? 'assets/Open-Status.png' : 'assets/Closed-Status.png'}" alt="">
           </div>
 
-          <button class="${
-            issue.priority === "high"
-              ? 'btn btn-outline border-none bg-red-100 btn-error rounded-full p-2 w-20 h-7 text-red-600 font-medium text-[12px]'
-              : issue.priority === "medium"
-                ? 'btn btn-outline border-none bg-orange-100 rounded-full p-2 w-20 h-7 text-orange-600 font-medium text-[12px]'
-                : 'btn btn-outline border-none bg-gray-200 rounded-full p-2 w-20 h-7 text-gray-600 font-medium text-[12px]'
-          }">
+          <button class="${issue.priority === "high"
+        ? 'btn btn-outline border-none bg-red-100 btn-error rounded-full p-2 w-20 h-7 text-red-600 font-medium text-[12px]'
+        : issue.priority === "medium"
+          ? 'btn btn-outline border-none bg-orange-100 rounded-full p-2 w-20 h-7 text-orange-600 font-medium text-[12px]'
+          : 'btn btn-outline border-none bg-gray-200 rounded-full p-2 w-20 h-7 text-gray-600 font-medium text-[12px]'
+      }">
             ${issue.priority.toUpperCase()}
           </button>
 
@@ -142,14 +219,14 @@ const displayIssues = (issues, type) => {
       <div class="text-[12px] text-[#64748B] items-center px-4 pb-4">
         <div>
           # <span>${issue.id}</span>
-          by <span class="author">${issue.author}</span>
+          by <span class="author">${issue.author ? issue.author : "Not mentioned"}</span>
         </div>
         <div class="date">
           ${new Date(issue.createdAt).toLocaleDateString('en-US', {
-            month: 'short',
-            day: 'numeric',
-            year: 'numeric'
-          })}
+        month: 'short',
+        day: 'numeric',
+        year: 'numeric'
+      })}
         </div>
       </div>
     `;
