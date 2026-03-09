@@ -7,8 +7,9 @@ const doSignIn = () => {
    const password = passwordField.value;
    const defUsername = document.getElementById("default-username").innerText;
    const defPassword = document.getElementById("default-password").innerText;
+
    if (userName == defUsername && password == defPassword) {
-      alert("Sign In Successfull!");
+      showAlert();
       window.location.href = "dashboard.html";
    } else {
       alert("Enter Correct Credentials!");
@@ -17,3 +18,14 @@ const doSignIn = () => {
       return;
    }
 };
+
+function showAlert() {
+   const alertBox = document.getElementById("alert");
+
+   alertBox.classList.remove("hidden");
+   
+   setTimeout(()=>{
+      alertBox.classList.add("hidden");
+   }, 3000);
+}
+
