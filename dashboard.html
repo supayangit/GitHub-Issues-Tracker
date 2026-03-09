@@ -60,7 +60,7 @@
 
 <body class="w-[1600px] mx-auto">
 
-    <header class="flex justify-between py-4 px-20 border-b border-gray-300">
+    <header class="flex justify-between py-4 px-20 border-  bg-white border-gray-300 sticky top-0 z-20">
         <div class="flex items-start gap-3">
             <img class="w-[36px] h-[37px]" src="assets/github-logo.png" alt="">
             <h1 class="font-semibold text-[37px]">GitHub Issues Tracker</h1>
@@ -69,10 +69,10 @@
             <div>
                 <label class="input validator join-item">
                     <i class="text-[#64748B] fa-solid fa-magnifying-glass"></i>
-                    <input type="text" placeholder="Search issues..." required />
+                    <input id="search-input" type="text" placeholder="Search issues..." required />
                 </label>
             </div>
-            <button class="btn btn-primary join-item">+ New Issue</button>
+            <button id="search-btn" class="btn btn-primary join-item">+ New Issue</button>
         </div>
     </header>
 

@@ -5,8 +5,6 @@ const fetchIssues = async (type = "all") => {
     const res = await fetch(url);
     const details = await res.json();
     const obj = details.data;
-    console.log(obj);
-
     setActiveFilter(type);
     displayIssues(obj, type);
 
@@ -240,3 +238,35 @@ const displayIssues = (issues, type) => {
   });
   issuesNo.innerText = `${issuesCount}`;
 };
+
+
+// // search
+// document.getElementById("btn-search").addEventListener("click", ()=>{
+//     const input = document.getElementById("input-search");
+//     const searchValue = input.value.trim().toLowerCase();
+
+//     fetch("https://openapi.programming-hero.com/api/words/all")
+//     .then((res) => res.json())
+//     .then((data) => {
+//         const allWords = data.data;
+//         const filterWords = allWords.filter(word =>
+//             word.word.toLowerCase().includes(searchValue));
+
+//         displayLevelWords(filterWords);
+//     });
+//     removeActive();
+// });
+
+// search
+document.getElementById("search-btn").addEventListener("click", () => {
+  const searchText = document.getElementById("search-input").value.trim().toLowerCase();
+  const url = `https://phi-lab-server.vercel.app/api/v1/lab/issues/search?q=${searchText}`;
+
+  fetch(url)
+  .then((res) => res.json())
+  .then((data) => {
+    const obj = data.data;
+    displayIssues(obj);
+    setActiveFilter();
+  })
+})
